@@ -1,8 +1,6 @@
 # Competitive Programming
 
-Competitive Programming Exercises
-
-3rd Edition's Exercises
+- Competitive Programming 3rd Edition's Exercises
  1. Introduction					24%
  2. Data Structures and Libraries	0%
  3. Problem Solving Paradigms		0%

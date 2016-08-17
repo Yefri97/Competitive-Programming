@@ -18,12 +18,6 @@ int bubble(int v[], int n) {
 }
 
 int main() {
-	int t; cin >> t;
-	while (t--) {
-		int n, v[60]; cin >> n;
-		for (int i = 0; i < n; i++) cin >> v[i];
-		int ans = bubble(v, n);
-		cout << "Optimal train swapping takes " << ans << " swaps." << endl;
-	}
+	
 	return 0;
 }

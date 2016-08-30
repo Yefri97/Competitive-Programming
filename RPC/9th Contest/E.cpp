@@ -1,6 +1,6 @@
 /*
- *  RPC 9-th Contest
- * 	Problem E: Wheel of Universally Copious Fortune
+ *  RPC 9-th Contest 2016
+ *  Problem E: Wheel of Universally Copious Fortune
  *  Status: Accepted
  */
 

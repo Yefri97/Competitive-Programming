@@ -5,16 +5,18 @@
  */
 
 #include <bits/stdc++.h>
+#define endl '\n'
 using namespace std;
 
 const double EPS = 1e-4;
 const int MAX_N = 3000;
 
-bool check(double a, double b) {
-  return (!(abs(a - b) < EPS) && (a > b));
+bool cmp(double a, double b) {
+  return (abs(a - b) > EPS && (a > b));
 }
 
 int main() {
+  ios_base::sync_with_stdio(false); cin.tie(0);
   double fact[MAX_N]; fact[0] = fact[1] = 0.0;
   for (int i = 2; i < MAX_N; i++)
     fact[i] = fact[i - 1] + log2(double(i));
@@ -31,11 +33,11 @@ int main() {
     }
     double a = num[0], b = num[1], c = num[2];
     string ans;
-    if (check(a, b) && check(a, c))
+    if (cmp(a, b) && cmp(a, c))
       ans = "A";
-    else if (check(b, a) && check(b, c))
+    else if (cmp(b, a) && cmp(b, c))
       ans = "B";
-    else if (check(c, a) && check(c, b))
+    else if (cmp(c, a) && cmp(c, b))
       ans = "C";
     else
       ans = "TIE";

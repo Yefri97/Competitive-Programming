@@ -22,8 +22,8 @@ int main() {
     for (int mask = 0; mask < (1 << n); mask++) {
       int cont = 0;
       for (int i = 0; i < m; i++) {
-        int a = (mask & (1 << mm[i][0]));
-        int b = (mask & (1 << mm[i][1]));
+        int a = ((mask & (1 << mm[i][0])) != 0);
+        int b = ((mask & (1 << mm[i][1])) != 0);
         cont += ((a)? (b == mm[i][2]) : (b != mm[i][2]));
       }
       ans += (cont == m);

@@ -4,13 +4,9 @@ typedef pair<int, int> ii;
 
 struct piece { 
   char id, color;
-  int posi, posj;
-  piece() : id('.'), color('#'), posi(-1), posj(-1) {}
-  piece(char _id, char _color, int _posi, int _posj) : id(_id), color(_color), posi(_posi), posj(_posj) {}
-  bool operator == (piece other) const {
-    return id == other.id && color == other.color;
-  }
-} QW, QB, board[5][5];
+  piece() : id('.'), color('#') {}
+  piece(char _id, char _color) : id(_id), color(_color) {}
+} board[5][5];
 
 void show() {
   for (int i = 0; i < 4; i++) {
@@ -18,149 +14,141 @@ void show() {
       cout << board[i][j].id << board[i][j].color << " ";
     cout << endl;
   }
+  cout << endl;
 }
 
-vector<ii> movPiece(piece pc) {
+vector<ii> movPiece(int ui, int uj) {
   vector<ii> ans;
-  int ui = pc.posi, uj = pc.posj;
+  piece pc = board[ui][uj];
   if (pc.id == 'Q') {
-    for (int i = ui - 1, j = uj - 1; i > 0 && j > 0; i--, j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui - 1, mj = uj - 1; mi >= 0 && mj >= 0; mi--, mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui - 1, j = uj; i > 0; i--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui - 1, mj = uj; mi >= 0; mi--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui - 1, j = uj + 1; i > 0 && j < 4; i--, j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui - 1, mj = uj + 1; mi >= 0 && mj < 4; mi--, mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui, j = uj + 1; j < 4; j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui, mj = uj + 1; mj < 4; mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj + 1; i < 4 && j < 4; i++, j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui + 1, mj = uj + 1; mi < 4 && mj < 4; mi++, mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj; i < 4; i++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui + 1, mj = uj; mi < 4; mi++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj - 1; i < 4 && j > 0; i++, j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui + 1, mj = uj - 1; mi < 4 && mj >= 0; mi++, mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui, j = uj - 1; j > 0; j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[i][j].color == 'B' ||
-          board[ui][uj].color == 'B' && board[i][j].color == 'W') break;
+    for (int mi = ui, mj = uj - 1; mj >= 0; mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
   }
   if (pc.id == 'N') {
-    int mi[10] = {-2, -1, 1, 2, 2, 1, -1, -2};
-    int mj[10] = {1, 2, 2, 1, -1, -2, -2, -1};
+    int vi[10] = {-2, -1, 1, 2, 2, 1, -1, -2};
+    int vj[10] = {1, 2, 2, 1, -1, -2, -2, -1};
     for (int i = 0; i < 8; i++) {
-      int vi = ui + mi[i], vj = uj + mj[i];
-      if (vi < 0 || vi >= 4 || vj < 0 || vj >= 4) continue;
-      ans.push_back(ii(vi, vj));
+      int mi = ui + vi[i], mj = uj + vj[i];
+      if (mi < 0 || mi >= 4 || mj < 0 || mj >= 4) continue;
+      if (board[ui][uj].color == board[mi][mj].color) continue;
+      ans.push_back(ii(mi, mj));
     }
   }
   if (pc.id == 'B') {
-    for (int i = ui - 1, j = uj - 1; i > 0 && j > 0; i--, j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui - 1, mj = uj - 1; mi >= 0 && mj >= 0; mi--, mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui - 1, j = uj + 1; i > 0 && j < 4; i--, j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui - 1, mj = uj + 1; mi >= 0 && mj < 4; mi--, mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj + 1; i < 4 && j < 4; i++, j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui + 1, mj = uj + 1; mi < 4 && mj < 4; mi++, mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj - 1; i < 4 && j > 0; i++, j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui + 1, mj = uj - 1; mi < 4 && mj >= 0; mi++, mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
   }
   if (pc.id == 'R') {
-    for (int i = ui - 1, j = uj; i > 0; i--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui - 1, mj = uj; mi >= 0; mi--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui, j = uj + 1; j < 4; j++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui, mj = uj + 1; mj < 4; mj++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui + 1, j = uj; i < 4; i++) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui + 1, mj = uj; mi < 4; mi++) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
-    for (int i = ui, j = uj - 1; j > 0; j--) {
-      if (board[ui][uj].color == board[i][j].color) break;
-      ans.push_back(ii(i, j));
-      if (board[ui][uj].color == 'W' && board[ui][uj].color == 'B' ||
-          board[ui][uj].color == 'B' && board[ui][uj].color == 'W') break;
+    for (int mi = ui, mj = uj - 1; mj >= 0; mj--) {
+      if (board[ui][uj].color == board[mi][mj].color) break;
+      ans.push_back(ii(mi, mj));
+      if (board[mi][mj].color != '#' && board[ui][uj].color != board[mi][mj].color) break;
     }
   }
   return ans;
 }
 
 bool solver(int m, char color) {
-  //cout << m << " " << color << endl;
-  //show();
+  //if (m == 1) {
+  //  cout << m << " " << color << endl;
+  //  show();
+  //}
   if (m == 0) return false;
-  bool ans = false;
+  bool ans = ((color == 'W')? true : false);
   for (int ui = 0; ui < 4; ui++) for (int uj = 0; uj < 4; uj++) {
     piece pc = board[ui][uj];
     if (pc.id == '.' || pc.color != color) continue;
     //cout << pc.id << " " << pc.color << endl;
-    vector<ii> mov = movPiece(pc);
+    vector<ii> mov = movPiece(ui, uj);
     //cout << pc.id << pc.color << " " << mov.size() << endl;
     //for (int i = 0; i < mov.size(); i++) cout << mov[i].first << "|" << mov[i].second << " "; cout << endl;
     for (int i = 0; i < mov.size(); i++) {
-      int vi = mov[i].first, vj = mov[i].second;
-      //cout << vi << " " << vj << endl; cout << endl;
-      if (board[vi][vj].id == 'Q' && board[vi][vj].color == 'W') return false;
-      if (board[vi][vj].id == 'Q' && board[vi][vj].color == 'B') return true;
-      piece temp = board[vi][vj];
-      board[vi][vj] = piece(pc.id, pc.color, vi, vj);
+      int mi = mov[i].first, mj = mov[i].second;
+      piece temp = board[mi][mj];
+      //cout << mi << " " << mj << endl; cout << endl;
+      if (temp.id == 'Q' && temp.color == 'W') return false;
+      if (temp.id == 'Q' && temp.color == 'B') return true;
+      board[mi][mj] = pc;
       board[ui][uj] = piece();
-      ans |= solver(m - 1, (color == 'W')? 'B' : 'W');
-      if (ans) return true;
-      board[vi][vj] = temp;
+      //if (pc.id == 'B') { cout << m << " " << color << endl; show(); }
+      int b = solver(m - 1, (color == 'W')? 'B' : 'W');
+      if (color == 'B') ans |= b;
+      if (color == 'W') ans &= b; 
+      //if (solver(m - 1, (color == 'W')? 'B' : 'W')) return true;
+      board[mi][mj] = temp;
       board[ui][uj] = pc;
+      //if (ans) { show(); return true; }
     }
   }
   return ans;
@@ -169,26 +157,24 @@ bool solver(int m, char color) {
 int main() {
   int t; cin >> t;
   while (t--) {
+    for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) board[i][j] = piece();
     int w, b, m; cin >> w >> b >> m;
 
     for (int i = 0; i < w; i++) {
       char p, col, row; cin >> p >> col >> row;
       int r = row - '0' - 1, c = col - 'A';
-      piece pc = piece(p, 'W', r, c);
-      if (p == 'Q') QW = pc;
+      piece pc = piece(p, 'W');
       board[r][c] = pc;
     }
     for (int i = 0; i < b; i++) {
       char p, col, row; cin >> p >> col >> row;
       int r = row - '0' - 1, c = col - 'A';
-      piece pc = piece(p, 'B', r, c);
-      if (p == 'Q') QB = pc;
+      piece pc = piece(p, 'B');
       board[r][c] = pc;
     }
-
     //show();
-
     bool ans = solver(m, 'W');
+    //show();
 
     cout << ((ans)? "YES" : "NO") << endl;
 

@@ -8,15 +8,6 @@ struct piece {
   piece(char _id, char _color) : id(_id), color(_color) {}
 } board[5][5];
 
-void show() {
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j++) 
-      cout << board[i][j].id << board[i][j].color << " ";
-    cout << endl;
-  }
-  cout << endl;
-}
-
 vector<ii> movPiece(int ui, int uj) {
   vector<ii> ans;
   piece pc = board[ui][uj];
@@ -120,35 +111,21 @@ vector<ii> movPiece(int ui, int uj) {
 }
 
 bool solver(int m, char color) {
-  //if (m == 1) {
-  //  cout << m << " " << color << endl;
-  //  show();
-  //}
-  if (m == 0) return false;
-  bool ans = ((color == 'W')? true : false);
+  if (m == 0) return color == 'B';
+  bool ans = false;
   for (int ui = 0; ui < 4; ui++) for (int uj = 0; uj < 4; uj++) {
     piece pc = board[ui][uj];
     if (pc.id == '.' || pc.color != color) continue;
-    //cout << pc.id << " " << pc.color << endl;
     vector<ii> mov = movPiece(ui, uj);
-    //cout << pc.id << pc.color << " " << mov.size() << endl;
-    //for (int i = 0; i < mov.size(); i++) cout << mov[i].first << "|" << mov[i].second << " "; cout << endl;
     for (int i = 0; i < mov.size(); i++) {
       int mi = mov[i].first, mj = mov[i].second;
       piece temp = board[mi][mj];
-      //cout << mi << " " << mj << endl; cout << endl;
-      if (temp.id == 'Q' && temp.color == 'W') return false;
-      if (temp.id == 'Q' && temp.color == 'B') return true;
+      if (temp.id == 'Q') return true;
       board[mi][mj] = pc;
       board[ui][uj] = piece();
-      //if (pc.id == 'B') { cout << m << " " << color << endl; show(); }
-      int b = solver(m - 1, (color == 'W')? 'B' : 'W');
-      if (color == 'B') ans |= b;
-      if (color == 'W') ans &= b; 
-      //if (solver(m - 1, (color == 'W')? 'B' : 'W')) return true;
+      if (!solver(m - 1, (color == 'W')? 'B' : 'W')) ans = true;
       board[mi][mj] = temp;
       board[ui][uj] = pc;
-      //if (ans) { show(); return true; }
     }
   }
   return ans;
@@ -172,9 +149,8 @@ int main() {
       piece pc = piece(p, 'B');
       board[r][c] = pc;
     }
-    //show();
+    
     bool ans = solver(m, 'W');
-    //show();
 
     cout << ((ans)? "YES" : "NO") << endl;
 

@@ -13,17 +13,18 @@ struct point {
   point(double _x, double _y) : x(_x), y(_y) {}
 };
 
-double dist(point a, point b) { return hypot(b.x - a.x, b.y - b.y); }
+double dist(point p1, point p2) { return hypot(p1.x - p2.x, p1.y - p2.y); }
 
-const int MAX_N = 300;
+const int MAX_N = 256;
 int n;
+double memo[MAX_N + 10][MAX_N + 10][MAX_N + 10];
 point arr[MAX_N + 10];
 
-double solver(int id, int k) {
-  if (id == n - 1) return dist(arr[id], arr[id - 1]);
-  if (k == 0) return solver(id + 1, 0) + dist(arr[id], arr[id - 1]);
-  return min( solver(id + 1, k - 1) + dist(arr[id - 1], arr[id + 1]) - dist(arr[id - 1], arr[id]) - dist(arr[id], arr[id + 1]),
-              solver(id + 1, k) + dist(arr[id], arr[id - 1]));
+double solver(int curr, int prev, int k) {
+  if (curr == n - 1) return memo[curr][prev][k] = dist(arr[curr], arr[prev]);
+  if (memo[curr][prev][k] != -1.0) return memo[curr][prev][k];
+  if (k == 0) return memo[curr][prev][k] = solver(curr + 1, curr, 0) + dist(arr[curr], arr[prev]);
+  return memo[curr][prev][k] = min(solver(curr + 1, prev, k - 1), solver(curr + 1, curr, k) + dist(arr[curr], arr[prev]));
 }
 
 int main() {
@@ -31,7 +32,10 @@ int main() {
   while (cin >> n >> k) {
     for (int i = 0; i < n; i++)
       cin >> arr[i].x >> arr[i].y;
-    double ans = solver(1, k);
+
+    for (int i = 0; i < n + 1; i++) for (int j = 0; j < n + 1; j++) for (int l = 0; l < k + 1; l++)
+      memo[i][j][l] = -1.0;
+    double ans = solver(1, 0, k);
     cout << fixed << setprecision(3) << ans << endl;
   }
 }

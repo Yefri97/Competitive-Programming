@@ -1,3 +1,9 @@
+/*
+ *  ACM ICPC XXX Colombian Programming Contest 2016
+ *  Problem B: Binary Land
+ *  Status: Accepted \ BFS Hard Implementation
+ */
+
 #include <bits/stdc++.h>
 using namespace std;
 

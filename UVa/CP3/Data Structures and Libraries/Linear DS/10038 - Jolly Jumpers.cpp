@@ -1,27 +1,26 @@
+// 1D Array Manipulation
 #include <bits/stdc++.h>
 
 using namespace std;
 
+const int MAXN = 3000;
+int input[MAXN + 10], arr[MAXN + 10];
+
 int main() {
-  int n, v[3010];
+  int n;
   while (cin >> n) {
     for (int i = 0; i < n; i++)
-      cin >> v[i];
-    vector<int> cs(n - 1);
-    int jolly = 1;
-    for (int i = 1; i < n && jolly; i++) {
-      int x = abs(v[i] - v[i - 1]); x--;
-      if (x < 0 || x >= n - 1) 
-        jolly = 0;
-      else if (cs[x]) 
-        jolly = 0;
+      cin >> input[i];
+    memset(arr, 0, sizeof arr);
+    bool flag = 1;
+    for (int i = 1; i < n; i++) {
+      int x = abs(input[i] - input[i - 1]);
+      if (x < 1 || x > n - 1 || arr[x])
+        flag = 0;
       else
-        cs[x] = 1;
+        arr[x] = 1;
     }
-    if (jolly)
-      cout << "Jolly" << endl;
-    else
-      cout << "Not jolly" << endl;
+    cout << ((flag)? "Jolly" : "Not jolly") << endl;
   }
   return 0;
 }

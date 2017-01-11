@@ -1,4 +1,4 @@
-// BIT Manipulation
+// Bit Manipulation
 #include <bits/stdc++.h>
 using namespace std;
 

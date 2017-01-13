@@ -6,11 +6,9 @@ int main() {
 	int q; cin >> q;
 	while (q--) {
 		long long x; cin >> x;
-		long long ans = 0;
-		for (int i = 0; (1 << i) < x; i++) {
-			if ((x & (1 << i)) == 0)
-				ans |= (1 << i);
-		}
+		long long msb = 1;
+		while (msb <= x) msb <<= 1;
+		long long ans = x ^ (msb - 1);
 		cout << ans << endl;
 	}
 	return 0;

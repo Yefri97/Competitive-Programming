@@ -31,21 +31,29 @@ public:
   int sizeOfSet(int i) { return setSize[findSet(i)]; }
 };
 
+const int MAXN = 100000;
+
+int idx;
+map<string, int> id;
+
+int getId(string name) {
+  if (id.find(name) == id.end()) id[name] = idx++;
+  return id[name];
+}
+
 int main() {
   int t; cin >> t;
-  string s; cin >> s;
   while (t--) {
-    int n = atoi(s.c_str()), ans[5]; ans[0] = ans[1] = 0;
-    UnionFind ds(n);
-    while (cin >> s && (s == "c" || s == "q")) {
-      int a, b; cin >> a >> b; a--; b--;
-      if (s == "c")
-        ds.unionSet(a, b);
-      else
-        ans[ds.isSameSet(a, b)]++;
+    idx = 0;
+    id.clear();
+    UnionFind friends(MAXN);
+    int m; cin >> m;
+    while (m--) {
+      string a, b; cin >> a >> b;
+      int u = getId(a), v = getId(b);
+      friends.unionSet(u, v);
+      cout << friends.sizeOfSet(u) << endl;
     }
-    cout << ans[1] << "," << ans[0] << endl;
-    if (t) cout << endl;
   }
   return 0;
 }

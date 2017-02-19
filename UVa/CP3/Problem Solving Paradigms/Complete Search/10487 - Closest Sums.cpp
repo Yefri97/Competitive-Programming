@@ -1,3 +1,4 @@
+// Iterative, Two Nested loops
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -14,11 +15,13 @@ int main() {
     while (q--) {
       int m; cin >> m;
       int ans, closest = kINF;
-      for (int i = 0; i < n; i++) for (int j = 0; j < i; j++) {
-        int x = abs(m - (v[i] + v[j]));
-        if (x < closest) {
-          closest = x;
-          ans = v[i] + v[j];
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+          int x = abs(m - (v[i] + v[j]));
+          if (x < closest) {
+            closest = x;
+            ans = v[i] + v[j];
+          }
         }
       }
       cout << "Closest sum to " << m << " is " << ans << "." << endl;

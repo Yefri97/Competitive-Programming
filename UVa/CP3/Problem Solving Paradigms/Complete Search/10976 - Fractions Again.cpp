@@ -1,3 +1,4 @@
+// Iterative (One loop, Linear Scan)
 #include <bits/stdc++.h>
 using namespace std;
 typedef pair<int, int> ii;
@@ -5,15 +6,14 @@ typedef pair<int, int> ii;
 int main() {
   int k;
   while (cin >> k) {
-    vector<ii> vp;
+    vector<ii> ans;
     for (int y = k + 1; y <= 2 * k; y++) {
-      double x = ((double) y * k / (y - k));
-      if (x == (int) x)
-        vp.push_back(ii(x, y));
+      if ((k * y) % (y - k) == 0)
+        ans.push_back(ii((k * y) / (y - k), y));
     }
-    cout << vp.size() << endl;
-    for (int i = 0; i < vp.size(); i++)
-      cout << "1/" << k << " = " << "1/" << vp[i].first << " + 1/" << vp[i].second << endl;
+    cout << ans.size() << endl;
+    for (int i = 0; i < ans.size(); i++)
+      cout << "1/" << k << " = " << "1/" << ans[i].first << " + 1/" << ans[i].second << endl;
   }
   return 0;
 }

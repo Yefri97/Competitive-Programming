@@ -10,7 +10,7 @@ int main() {
     for (x = -100; x <= 100; x++)
       for (y = -100; y <= 100; y++)
         for (z = -100; z <= 100; z++)
-          if (x != y and x != z and y != z and
+          if (!done and x != y and x != z and y != z and
               x + y + z == A and x * y * z == B and x * x + y * y + z * z == C) {
             cout << x << " " << y << " " << z << endl;
             done = true;

@@ -1,3 +1,8 @@
+/*
+ *  HackerRank - Warmup Challenges
+ *  Problem: Time Conversion
+ *  Level: Easy
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

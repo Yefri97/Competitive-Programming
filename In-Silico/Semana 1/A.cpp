@@ -1,3 +1,8 @@
+/*
+ *  HackerRank - Warmup Challenges
+ *  Problem: Solve Me First
+ *  Level: Easy
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

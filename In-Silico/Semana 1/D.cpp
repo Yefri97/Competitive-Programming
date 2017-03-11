@@ -1,11 +1,16 @@
+/*
+ *  HackerRank - Warmup Challenges
+ *  Problem: A Very Big Sum
+ *  Level: Easy
+ */
 #include <bits/stdc++.h>
 using namespace std;
 
 int main() {
   int n; cin >> n;
-  int ans = 0;
+  long long ans = 0;
   for (int i = 0; i < n; i++) {
-    int x; cin >> x;
+    long long x; cin >> x;
     ans += x;
   }
   cout << ans << endl;

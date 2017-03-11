@@ -1,3 +1,8 @@
+/*
+ *  HackerRank - Warmup Challenges
+ *  Problem: Diagonal Difference
+ *  Level: Easy
+ */
 #include <bits/stdc++.h>
 using namespace std;
 

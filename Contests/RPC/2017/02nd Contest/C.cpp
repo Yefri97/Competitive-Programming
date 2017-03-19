@@ -29,8 +29,8 @@ int main() {
 			window += 1;
 			ans += 1;
 		}
-		if (cameras[i - r + 1] == 1) window--;
-		if (cameras[i + 1] == 1) window++;
+		window -= cameras[i - r + 1];
+		window += cameras[i + 1];
 	}
 	cout << ans << endl;
 	return 0;

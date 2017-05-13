@@ -1,52 +1,58 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef pair<int, int> ii;
+
 int main() {
-	bool first = true;
 	int t; cin >> t;
 	while (t--) {
-		if (!first) cout << endl; first = false;
 		int n; cin >> n;
-		vector<int> v(n);
-		for (int i = 0; i < v.size(); i++) cin >> v[i];
-		sort(v.begin(), v.end());
-		if (n == 1) { cout << v[0] << endl << v[0] << endl; continue; }
+		vector<int> velocity(n);
+		for (int i = 0; i < n; i++)
+			cin >> velocity[i];
+		sort(velocity.begin(), velocity.end());
+		vector<ii> path;
 		int ans = 0;
-		for (int i = n - 1, a = v[0], b = v[1]; true; i -= 2) {
-			int x = v[i - 1], y = v[i];
-			if (i < 3) {
-				if (i == 2) ans += b + a + y;
-				if (i == 1) ans += b;
-				break;
+		int a = 0, b = 1, x = n - 2, y = n - 1;
+		while (y > 2) {
+			int va = velocity[a], vb = velocity[b], vx = velocity[x], vy = velocity[y];
+			if (2 * va + vx + vy < va + 2 * vb + vy) {
+				ans += 2 * va + vx + vy;
+				path.push_back(ii(va, vy));
+				path.push_back(ii(va, -1));
+				path.push_back(ii(va, vx));
+				path.push_back(ii(va, -1));
+			} else {
+				ans += va + 2 * vb + vy;
+				path.push_back(ii(va, vb));
+				path.push_back(ii(va, -1));
+				path.push_back(ii(vx, vy));
+				path.push_back(ii(vb, -1));
 			}
-			ans += min(2 * a + x + y, 2 * b + a + y);
+			x -= 2; y -= 2;
+		}
+		if (y == 2) {
+			ans += velocity[2] + velocity[0] + velocity[1];
+			path.push_back(ii(velocity[0], velocity[2]));
+			path.push_back(ii(velocity[0], -1));
+			path.push_back(ii(velocity[0], velocity[1]));
+		}
+		if (y == 1) {
+			ans += velocity[1];
+			path.push_back(ii(velocity[0], velocity[1]));
+		}
+		if (y == 0) {
+			ans += velocity[0];
+			path.push_back(ii(velocity[0], -1));
 		}
 		cout << ans << endl;
-		for (int i = n - 1, a = v[0], b = v[1]; true; i -= 2) {
-			int x = v[i - 1], y = v[i];
-			if (i < 3) {
-				if (i == 2) {
-					cout << a << " " << b << endl;
-					cout << a << endl;
-					cout << a << " " << y << endl;
-				}
-				if (i == 1) {
-					cout << a << " " << b << endl;
-				}
-				break;
-			}
-			if (a + x < 2 * b) {
-				cout << a << " " << x << endl;
-				cout << a << endl;
-				cout << a << " " << y << endl;
-				cout << a << endl;
-			} else {
-				cout << a << " " << b << endl;
-				cout << a << endl;
-				cout << x << " " <<  y << endl;
-				cout << b << endl;
-			}
+		for (int i = 0; i < path.size(); i++) {
+			cout << path[i].first;
+			if (path[i].second != -1)
+				cout << " " << path[i].second;
+			cout << endl;
 		}
+		if (t) cout << endl;
 	}
 	return 0;
 }

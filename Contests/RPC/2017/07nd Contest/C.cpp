@@ -1,3 +1,8 @@
+/*
+ *  RPC 07st Contest 2017
+ *  Problem C: The Key to Cryptography
+ *  Outcome: Accepted | Category: Ad-Hoc
+ */
 #include <bits/stdc++.h>
 #define endl '\n'
 #define debug(X) cout << #X << " = " << X << endl

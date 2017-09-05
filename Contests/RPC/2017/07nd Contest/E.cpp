@@ -1,3 +1,8 @@
+/*
+ *  RPC 07st Contest 2017
+ *  Problem E: Red Rover
+ *  Outcome: Accepted | Category: Brute Force + Math
+ */
 #include <bits/stdc++.h>
 #define endl '\n'
 #define debug(X) cout << #X << " = " << X << endl

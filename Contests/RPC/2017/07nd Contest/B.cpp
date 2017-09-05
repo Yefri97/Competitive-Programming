@@ -3,57 +3,66 @@
 #define debug(X) cout << #X << " = " << X << endl
 #define fori(i,b,e) for (int i = (b); i < (e); ++i)
 #define mod(x,m) ((((x) % (m)) + (m)) % (m))
+#define sq(x) (x) * (x)
 
 using namespace std;
 
 typedef long long ll;
 typedef vector<int> vi;
+typedef vector<vi> vvi;
 typedef pair<int, int> ii;
 typedef vector<ii> vii;
 
-const int INF = 1e9, MAXN = 15;
-string names[MAXN];
+const int oo = 1e9, mxn = 15;
+
+string names[mxn];
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0);
-	int n; cin >> n;
-	fori(i, 0, n)
-		cin >> names[i];
-	string cmd; cin >> cmd;
-	int max_val = 0, len = 0;
-	fori(i, 0, cmd.size()) {
-		if (cmd[i] != cmd[i - 1]) len = 0;
-		len++;
-		max_val = max(max_val, len);
-	}
-	int b = 0, w = 0;
-	queue<int> q;
-	vii ans;
-	ii curr_white = ii(0, 2), curr_black = ii(1, 3);
-	ii cw = curr_white, cb = curr_black;
-	fori(i, 4, n) q.push(i);
-	fori(i, 0, cmd.size()) {
-		if (cmd[i] == 'W') {
-			swap(curr_white.first, curr_white.second);
-			q.push(curr_black.second);
-			curr_black.second = curr_black.first;
-			curr_black.first = q.front(); q.pop();
-			cb = curr_black;
-			w++;
-			b = 0;
-		} else {
-			swap(curr_black.first, curr_black.second);
-			q.push(curr_white.second);
-			curr_white.second = curr_white.first;
-			curr_white.first = q.front(); q.pop();
-			cw = curr_white;
-			b++;
-			w = 0;
+	int n;
+	while (cin >> n) {
+		queue<int> q;
+		fori(i, 0, n) {
+			cin >> names[i];
+			q.push(i);
 		}
-		if (w == max_val) ans.push_back(cw);
-		if (b == max_val) ans.push_back(cb);
+		string line; cin >> line;
+		int dynasty = 0;
+		vi score(2);
+		for (char c : line) {
+			int winner = (c == 'B'), loser = !winner;
+			score[winner]++;
+			score[loser] = 0;
+			dynasty = max(dynasty, score[winner]);
+		}
+		vvi teams(2, vi(2));
+		fori(j, 0, 2) {
+			fori(i, 0, 2) {
+				int id = q.front(); q.pop();
+				teams[i][j] = id;
+			}
+		}
+		score.assign(2, 0);
+		vii init(2), ans;
+		fori(i, 0, 2) init[i] = ii(teams[i][0], teams[i][1]);
+		for (char c : line) {
+			int winner = (c == 'B'), loser = !winner;
+			score[winner]++;
+			score[loser] = 0;
+			// Winner
+			swap(teams[winner][0], teams[winner][1]);
+			// Loser
+			int nxt = q.front(); q.pop();
+			q.push(teams[loser][1]);
+			teams[loser][1] = nxt;
+			init[loser] = ii(teams[loser][0], teams[loser][1]);
+			swap(teams[loser][0], teams[loser][1]);
+			// Check dynasty
+			if (score[winner] == dynasty)
+				ans.push_back(init[winner]);
+		}
+		for (auto team : ans)
+			cout << names[team.first] << " " << names[team.second] << endl;
 	}
-	fori(i, 0, ans.size())
-		cout << names[ans[i].first] << " " << names[ans[i].second] << endl;
 	return 0;
 }

@@ -13,18 +13,13 @@ const int oo = 1e9;
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0);
-	int tc; cin >> tc;
-	while (tc--) {
-		char c; cin >> c;
-		int n, m; cin >> n >> m;
-		if (c == 'r')
-			cout << min(n, m) << endl;
-		if (c == 'k')
-			cout << (n * m + 1) / 2 << endl;
-		if (c == 'Q')
-			cout << min(n, m) << endl;
-		if (c == 'K')
-			cout << ((n + 1) / 2) * ((m + 1) / 2) << endl;
+	int x1, y1, x2, y2;
+	while (cin >> x1 >> y1 >> x2 >> y2 && x1) {
+		int ans;
+		if (x1 == x2 && y1 == y2) ans = 0;
+		else if (x1 == x2 || y1 == y2 || abs(x1 - x2) == abs(y1 - y2)) ans = 1;
+		else ans = 2;
+		cout << ans << endl;
 	}
 	return 0;
 }

@@ -2,40 +2,56 @@
 #define endl '\n'
 #define debug(X) cout << #X << " = " << X << endl
 #define fori(i,b,e) for (int i = (b); i < (e); ++i)
-#define mod(x,m) ((((x) % (m)) + (m)) % (m))
-#define sq(x) (x) * (x)
 
 using namespace std;
 
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<vi> vvi;
 typedef pair<int, int> ii;
-typedef vector<ii> vii;
 
 const int oo = 1e9;
 
-bool check(vi a, vi b, int x) {
-	b[2] = x;
-	sort(b.begin(), b.end());
-	return ((b[1] > a[2] && b[2] > a[2]) || (b[0] > a[1]));
+bool check(vi &A, vi &B) {
+	fori(i, 0, 3) if (A[i] == B[0])
+		return false;
+	fori(i, 1, 3) if (B[i] == B[0])
+		return false;
+	fori(i, 0, 3) {
+		int win = 0;
+		fori(j, 0, 3) {
+			vi a, b;
+			int cnt = B[i] > A[j];
+			fori(k, 0, 3) if (k != j)
+				a.push_back(A[k]);
+			fori(k, 0, 3) if (k != i)
+				b.push_back(B[k]);
+			sort(a.begin(), a.end());
+			sort(b.begin(), b.end());
+			if (b[0] > a[0] && b[0] > a[1])
+				cnt += 2;
+			else if (b[0] > a[0] && b[0] < a[1] || b[0] < a[0] && b[1] > a[1])
+				cnt += 1;
+			win += (cnt >= 2);
+		}
+		if (win == 3) return true;
+	}
+	return false;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0);
-	vi a(3), b(3);
-	while (cin >> a[0] >> a[1] >> a[2] >> b[0] >> b[1] && a[0]) {
-		sort(a.begin(), a.end());
-		int ans = 1;
-		while (ans < 53) {
-			if (find(a.begin(), a.end(), ans) == a.end() && find(b.begin(), b.end(), ans) == b.end())
-				if (check(a, b, ans)) break;
-			ans++;
+	vi A(3), B(3);
+	while (cin >> A[0] && A[0]) {
+		fori(i, 1, 3)
+			cin >> A[i];
+		fori(i, 1, 3)
+			cin >> B[i];
+		B[0] = 1;
+		while (B[0] < 53) {
+			if (check(A, B)) break;
+			B[0]++;
 		}
-		if (ans == 53)
-			cout << -1 << endl;
-		else
-			cout << ans << endl;
+		cout << (B[0] < 53 ? B[0] : -1) << endl;
 	}
 	return 0;
 }

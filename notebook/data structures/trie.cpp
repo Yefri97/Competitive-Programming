@@ -1,42 +1,45 @@
-const int MA = 26, MX = 500000;
-
+// Solve the problem of find v such that v <= lim and v ^ x is maximum
 struct Node {
-    bool leaf;
-    int best;
-    int children[MA];
-    Node() {
-        leaf = false;
-        best = -1;
-        memset(children, -1, sizeof children);
-    }
+	int best;
+	Node* children[2];
+	Node() {
+		best = oo;
+		children[0] = children[1] = NULL;
+	}
 };
 
-int num_nodes;
-vector<Node> T;
-//Node T[MX];
+Node* root;
 
-void insert_trie(string s, int w) {
-    int u = 0;
-    for (int i = 0; i < s.size(); i++) {
-        int c = s[i] - 'a';
-        if (T[u].children[c] == -1) {
-            T.push_back(Node());
-            num_nodes++;
-            T[u].children[c] = num_nodes;
-        }
-        T[u].best = max(T[u].best, w);
-        u = T[u].children[c];
-    }
-    T[u].leaf = true;
+void insert(int x, int k) {
+	Node* u = root;
+	u->best = min(u->best, x);
+	for (int i = 16; i >= 0; i--) {
+		int c = (x >> i) & 1;
+		if (u->children[c] == NULL)
+			u->children[c] = new Node();
+		u = u->children[c];
+		u->best = min(u->best, x);
+	}
 }
 
-int query_trie(string s) {
-    int u = 0;
-    for (int i = 0; i < s.size(); i++) {
-        int c = s[i] - 'a';
-        if (T[u].children[c] == -1)
-            return -1;
-        u = T[u].children[c];
-    }
-    return T[u].best;
+int query(int x, int lim) {
+	Node* u = root;
+	int ans = 0;
+	for (int i = 16; i >= 0; i--) {
+		int c = (x >> i) & 1;
+		Node* a = u->children[1 - c];
+		Node* b = u->children[c];
+		if (a != NULL && a->best <= lim) {
+			u = a;
+			ans |= (1 - c) << i;
+		} else {
+			u = b;
+			ans |= c << i;
+		}
+	}
+	return ans;
+}
+
+void init() {
+	root = new Node();
 }

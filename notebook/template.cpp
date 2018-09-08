@@ -2,6 +2,7 @@
 #define endl '\n'
 #define debug(X) cout << #X << " = " << X << endl
 #define fori(i,b,e) for (int i = (b); i < (e); ++i)
+#define SZ(v) (int)v.size()
 
 using namespace std;
 

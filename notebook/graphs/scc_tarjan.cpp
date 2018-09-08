@@ -1,37 +1,31 @@
-const int MAXN = /*...*/, UNVISITED = -1;
+int cnt, nComps, compOf[MN];
+int low[MN], num[MN], vis[MN];
+vi g[MN];
+stack<int> st;
 
-int dfsNumberCounter, numSCC, scc[MAXN];
-vi dfs_num, dfs_low, S, visited;
-vi g[MAXN];
-
-void tarjanSCC(int u) {
-	dfs_low[u] = dfs_num[u] = dfsNumberCounter++;
-	S.push_back(u);
-	visited[u] = 1;
-	fori(j, 0, g[u].size()) {
-		int v = g[u][j];
-		if (dfs_num[v] == UNVISITED)
-			tarjanSCC(v);
-		if (visited[v])
-			dfs_low[u] = min(dfs_low[u], dfs_low[v]);
+void scc(int u) {
+	low[u] = num[u] = cnt++;
+	st.push(u);
+	vis[u] = 1;
+	for (int v : g[u]) {
+		if (num[v] == -1)
+			scc(v);
+		if (vis[v])
+			low[u] = min(low[u], low[v]);
 	}
-
-	if (dfs_low[u] == dfs_num[u]) {
+	if (low[u] == num[u]) {
 		while (true) {
-			int v = S.back(); S.pop_back(); visited[v] = 0;
-			scc[v] = numSCC;
+			int v = st.top(); st.pop();
+			vis[v] = 0;
+			compOf[v] = nComps;
 			if (u == v) break;
 		}
-		numSCC++;
+		nComps++;
 	}
 }
 
 int main() {
-	/* ... */
-	dfs_num.assign(V, UNVISITED); dfs_low.assign(V, 0); visited.assign(V, 0);
-	dfsNumberCounter = numSCC = 0;
-	fori(i, 0, V)
-		if(dfs_num[i] == UNVISITED)
-			tarjanSCC(i);
-	/* ... */
+	memset(num, -1, sizeof num);
+	fori(i, 0, n) if (num[i] == -1)
+		scc(i);
 }

@@ -1,4 +1,3 @@
-// RMQ
 const int MN = 100000;
 const int ML = 18;
 
@@ -7,8 +6,9 @@ int ln[MN];
 
 void build(vi &v) {
 	// log2 O(1)
-	ln[2] = ln[3] = 1;
-	fori(i, 4, MN) ln[i] = 2 * ln[i / 2];
+	ln[1] = 0;
+	for (int i = 2; i < MN; i++)
+		ln[i] = ln[i / 2] + 1;
 	// Sparse table
 	int n = v.size();
 	for (int i = 0; i < n; i++)

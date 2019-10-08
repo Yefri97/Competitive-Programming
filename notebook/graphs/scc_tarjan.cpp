@@ -1,6 +1,7 @@
+// O(V + E)
 int cnt, nComps, compOf[MN];
 int low[MN], num[MN], vis[MN];
-vi g[MN];
+vector<int> g[MN];
 stack<int> st;
 
 void scc(int u) {
@@ -26,6 +27,6 @@ void scc(int u) {
 
 int main() {
 	memset(num, -1, sizeof num);
-	fori(i, 0, n) if (num[i] == -1)
+	for (int i = 0; i < n; i++) if (num[i] == -1)
 		scc(i);
 }

@@ -14,11 +14,19 @@
 #define turnOnLastConsecutiveZeroes(S) ((S) | (S - 1))
 
 void printSet(int vS) {
-  cout << "S = " << vS << " = ";
-  stack<int> st;
-  while (vS)
-    st.push(vS % 2), vS /= 2;
-  while (!st.empty())
-    cout << st.top(), st.pop();
-  cout << endl;
+	cout << "S = " << vS << " = ";
+	stack<int> st;
+	while (vS)
+		st.push(vS % 2), vS /= 2;
+	while (!st.empty())
+		cout << st.top(), st.pop();
+	cout << endl;
+}
+
+// O(3 ^ N)
+void genSubmasks(int mask) {
+	for (int submask = mask; true; submask = (submask - 1) & mask) {
+		/* Do something */
+		if (submask == 0) break;
+	}
 }

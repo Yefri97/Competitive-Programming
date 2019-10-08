@@ -1,3 +1,4 @@
+// O(V * E * E)
 int n, res[mxn][mxn], p[mxn], f, s, t;
 
 void augment(int v, int minEdge) {
@@ -13,7 +14,7 @@ int maxFlow() {
 	while (true) {
 		f = 0;
 		
-		vi dist(mxn, oo); dist[s] = 0;
+		vector<int> dist(mxn, oo); dist[s] = 0;
 		queue<int> q; q.push(s);
 		memset(p, -1, sizeof p);
 		while (!q.empty()) {

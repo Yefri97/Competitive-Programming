@@ -113,3 +113,50 @@ struct SegmentTree {
 	}
 
 };
+
+// Implicit Lazy Propagation Segment Tree
+
+struct Node {
+	Node *l, *r;
+	long long value, lazy;
+	Node() : l(NULL), r(NULL), value(0), lazy(0) {}
+};
+
+Node *root;
+
+void pushdown(Node *p, int i, int j) {
+	p->value += (j - i + 1) * p->lazy;
+	if (i < j) {
+		if (p->l == NULL) p->l = new Node();
+		p->l->lazy += p->lazy;
+		if (p->r == NULL) p->r = new Node();
+		p->r->lazy += p->lazy;
+	}
+	p->lazy = 0;
+}
+
+void update(Node *p, int i, int j, int L, int R, long long inc) {
+	if (p->lazy != 0) pushdown(p, i, j);
+	if (j < L || R < i) return;
+	if (L <= i && j <= R) {
+		p->lazy += inc;
+		pushdown(p, i, j);
+		return;
+	}
+	int mid = (i + j) / 2;
+	if (p->l == NULL) p->l = new Node();
+	update(p->l, i, mid, L, R, inc);
+	if (p->r == NULL) p->r = new Node();
+	update(p->r, mid + 1, j, L, R, inc);
+	p->value = p->l->value + p->r->value;
+}
+
+long long query(Node *p, int i, int j, int L, int R) {
+	if (p == NULL || j < L || R < i) return 0;
+	if (p->lazy != 0) pushdown(p, i, j);
+	if (L <= i && j <= R) return p->value;
+	int mid = (i + j) / 2;
+	long long q1 = query(p->l, i, mid, L, R);
+	long long q2 = query(p->r, mid + 1, j, L, R);
+	return q1 + q2;
+}

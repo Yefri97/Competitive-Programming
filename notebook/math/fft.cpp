@@ -1,5 +1,22 @@
 typedef complex<double> Cpx;
 
+typedef double T;
+struct Cpx {
+	T real, image;
+	Cpx( T real, T image ): real(real), image(image) {}
+	Cpx( T real ): real(real), image(0) {}
+	Cpx() { real = 0; image = 0; }
+};
+Cpx operator +( const Cpx &c1, const Cpx &c2) {
+	return Cpx(c1.real + c2.real, c1.image + c2.image );
+}
+Cpx operator -( const Cpx &c1, const Cpx &c2) {
+	return Cpx(c1.real - c2.real, c1.image - c2.image );
+}
+Cpx operator *( const Cpx &c1, const Cpx &c2) {
+	return Cpx(c1.real*c2.real - c1.image*c2.image, c1.image*c2.real + c1.real*c2.image);
+}
+
 const double PI = acos(-1);
 
 int rev(int id, int len) {

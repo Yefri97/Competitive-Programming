@@ -1,3 +1,4 @@
+typedef ii pair<long long, long long> // dont forget!
 const long long base = 1777771;
 const long long mod1 = 999727999;
 const long long mod2 = 1070777777;

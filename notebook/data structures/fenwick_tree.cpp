@@ -1,4 +1,4 @@
-struct FenwickTree {
+struct FenwickTree { // algo que no esta roto
 	int n;
 	vector<int> data;
 	FenwickTree(int _n) : n(_n), data(vector<int>(n)) {}
